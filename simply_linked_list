@@ -1,0 +1,112 @@
+class Node:
+
+  def __init__(self, fruit):
+    self.fruit = fruit
+    self.next = None
+
+  def get_fruit(self):
+    return self.fruit
+
+  def get_next(self):
+    return self.next
+
+  def set_next(self, next):
+    self.next = next
+
+class Simply_linked_list:
+
+  def __init__(self):
+    self.header = None
+    self.tail = None
+    self.size = 0
+
+  def append(self, fruit):
+    new_Node = Node(fruit)
+    self.size += 1
+    if self.header == None:
+      self.header = new_Node
+    else:
+      node = self.tail
+      node.set_next(new_Node)
+    self.tail = new_Node
+
+  def print_list(self):
+    print(">> current list")
+    node = self.header
+    while node != None:
+      print(node.get_fruit())
+      node = node.get_next()
+    print(">>>>>>>>>>>>>>>>")
+
+  def get_at(self, index):
+    if index >= self.size:
+      return None
+    else:
+      node = self.header
+      for i in range(0, index):
+        node = node.get_next()
+      return node
+  
+  def search(self, fruit):
+    node = self.header
+    for i in range(0, self.size):
+      if node.get_fruit() == fruit:
+        return node
+      else:
+        node = node.get_next()
+    return None
+
+  def delete_at(self, index):
+    if index >= self.size:
+      pass
+    node = self.header
+    if index == 0:
+      self.header = node.get_next()
+      if self.size == 1:
+        self.tail = None
+    else:
+      for i in range(0, index - 1):
+        node = node.get_next()
+      node.set_next(node.get_next().get_next())
+      if index + 1 == self.size:
+        self.tail = node
+    self.size -= 1
+
+SLL = Simply_linked_list()
+SLL.append("Apple")
+SLL.append("Kiwi")
+SLL.append("Banana")
+SLL.print_list()
+
+node = SLL.get_at(1)
+if node != None:
+  print(node.get_fruit())
+else:
+  print("index error")
+node = SLL.get_at(2)
+if node != None:
+  print(node.get_fruit())
+else:
+  print("index error")
+
+node = SLL.search('Banana')
+if node != None:
+  print("We have it!")
+else:
+  print("We don't have it!")
+node = SLL.search('Lemon')
+if node != None:
+  print("We have it!")
+else:
+  print("We don't have it!")
+
+SLL.delete_at(1)
+SLL.print_list()
+SLL.append("Orange")
+SLL.print_list()
+SLL.delete_at(0)
+SLL.print_list()
+SLL.delete_at(1)
+SLL.print_list()
+SLL.delete_at(0)
+SLL.print_list()
