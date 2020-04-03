@@ -1,0 +1,93 @@
+class Node:
+
+  def __init__(self, data):
+    self.data = data
+    self.next = None
+    self.prev = None
+  def set_prev(self, prev):
+    self.prev = prev
+
+  def set_next(self, next):
+    self.next = next
+
+  def get_data(self):
+    return self.data
+
+  def get_prev(self):
+    return self.prev
+  
+  def get_next(self):
+    return self.next
+
+class Doubly_linked_list:
+
+  def __init__(self):
+    self.header = None
+    self.tail = None
+    self.size = 0
+
+  def print_list(self):
+    print(">> current list")
+    node = self.header
+    while node != None:
+      print(node.get_data())
+      node = node.get_next()
+    print(">>>>>>>>>>>>>>>>")
+
+  def append(self, data):
+    new_node = Node(data)
+    self.size += 1
+    if self.header == None:
+      self.header = new_node
+    else:
+      self.tail.set_next(new_node)
+      new_node.set_prev(self.tail)
+    self.tail = new_node
+  
+  def get_at(self, index):
+    if index >= self.size:
+      return None
+    else:
+      node = self.header
+      for i in range(0, index):
+        node = node.get_next()
+      return node
+
+  def search(self, data):
+    node = self.header
+    for i in range(0, self.size):
+      if node.get_data() == data:
+        return node
+      else:
+        node = node.get_next()
+    return None
+
+  def get_near_by(self, data, scope):
+    list = []
+    back_node = self.search(data)
+    forward_node = self.search(data)
+    if back_node != None:
+      for i in range(0, scope):
+        if back_node.get_prev() != None:
+          back_node = back_node.get_prev()
+          list.append(back_node)
+        if forward_node.get_next() != None:
+          forward_node = forward_node.get_next()
+          list.append(forward_node)
+    return list
+
+DLL = Doubly_linked_list()
+DLL.append("Apple")
+DLL.append("Kiwi")
+DLL.append("Banana")
+DLL.append("Melon")
+DLL.append("Orange")
+DLL.append("Blackberry")
+
+list = DLL.get_near_by("Banana", 2)
+for node in list:
+  print(node.get_data())
+print("===============================")
+list = DLL.get_near_by("Apple", 3)
+for node in list:
+  print(node.get_data())
